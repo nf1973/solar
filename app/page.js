@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { getInitialDateValues } from "@/lib/dateUtils";
+import DateRangePicker from "@/components/DateRangePicker";
 import DataTable from "@/components/DataTable";
 import MonthlySummaryTable from "@/components/MonthlySummaryTable";
 import YearlySummaryTable from "@/components/YearlySummaryTable";
@@ -32,7 +33,16 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-start p-24">
       <h1 className="text-2xl font-semibold">Solar Logs</h1>
-
+      <DateRangePicker
+        startYear={startYear}
+        setStartYear={setStartYear}
+        endYear={endYear}
+        setEndYear={setEndYear}
+        startMonth={startMonth}
+        setStartMonth={setStartMonth}
+        endMonth={endMonth}
+        setEndMonth={setEndMonth}
+      />
       <h3 className="pt-12 pb-8 font-semibold">Yearly Summary</h3>
       <YearlySummaryTable startYear={startYear} endYear={endYear} />
       <h3 className="pt-12 pb-8 font-semibold">Monthly Summary</h3>
