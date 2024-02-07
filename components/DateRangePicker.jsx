@@ -83,7 +83,7 @@ const DateRangePicker = ({
   const maxDate = `${currentYear}-${currentMonth.toString().padStart(2, "0")}`;
 
   return (
-    <Card className="m-8">
+    <Card className="w-fit">
       <CardHeader>
         <CardTitle>Select Date Range</CardTitle>
       </CardHeader>
@@ -125,7 +125,7 @@ const DateRangePicker = ({
               </div>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex gap-4 items-center justify-center">
             <Button
               variant="secondary"
               onClick={() => handlePreselection("thisMonth")}

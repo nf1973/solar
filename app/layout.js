@@ -13,7 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={inter.className}>
         <div className="min-h-screen flex bg-white text-black">
-          <div className="p-8 w-full"> {children}</div>
+          <div className="w-full"> {children}</div>
         </div>
       </body>
     </html>
