@@ -43,16 +43,16 @@ export default function Home() {
         endMonth={endMonth}
         setEndMonth={setEndMonth}
       />
-      <h3 className="pt-12 pb-8 font-semibold">Yearly Summary</h3>
+
       <YearlySummaryTable startYear={startYear} endYear={endYear} />
-      <h3 className="pt-12 pb-8 font-semibold">Monthly Summary</h3>
+
       <MonthlySummaryTable
         startYear={startYear}
         startMonth={startMonth}
         endYear={endYear}
         endMonth={endMonth}
       />
-      <h3 className="pt-12 pb-8 font-semibold">Daily Logs</h3>
+
       <DataTable
         startYear={startYear}
         startMonth={startMonth}

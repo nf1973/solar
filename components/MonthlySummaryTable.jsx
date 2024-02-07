@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card, CardHeader, CardContent } from "./ui/card";
 const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
   const [data, setData] = useState([]);
 
@@ -45,40 +46,45 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Date</TableHead>
-          <TableHead className="text-right">
-            Total Energy Generated (kWh)
-          </TableHead>
-          <TableHead className="text-right">
-            Average Daily Enegery (kWh)
-          </TableHead>{" "}
-          <TableHead className="text-right">
-            Average Daily Efficiency (kWh/kWp)
-          </TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((record) => (
-          <TableRow key={record.date}>
-            <TableCell className="font-medium">
-              {formatDateforDisplay(record.date)}
-            </TableCell>
-            <TableCell className="text-right">
-              {kwhFormatter(record.totalEnergy)}
-            </TableCell>
-            <TableCell className="text-right">
-              {kwhFormatter(record.averageDailyEnergy)}
-            </TableCell>
-            <TableCell className="text-right">
-              {roundToOneDecimalPlace(record.averageEfficiency)}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <Card>
+      <CardHeader>Monthly Summary</CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">
+                Total Energy Generated (kWh)
+              </TableHead>
+              <TableHead className="text-right">
+                Average Daily Enegery (kWh)
+              </TableHead>{" "}
+              <TableHead className="text-right">
+                Average Daily Efficiency (kWh/kWp)
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((record) => (
+              <TableRow key={record.date}>
+                <TableCell className="font-medium">
+                  {formatDateforDisplay(record.date)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {kwhFormatter(record.totalEnergy)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {kwhFormatter(record.averageDailyEnergy)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {roundToOneDecimalPlace(record.averageEfficiency)}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 };
 

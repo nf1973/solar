@@ -8,6 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Card, CardHeader, CardContent } from "./ui/card";
 const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
   const [data, setData] = useState([]);
 
@@ -46,40 +47,47 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
   };
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Date</TableHead>
-          <TableHead className="text-right">Energy Generated (kWh)</TableHead>
-          <TableHead className="text-right">Efficiency (kWh/kWp)</TableHead>
-          <TableHead className="text-right">Peak Power (kW)</TableHead>
-          <TableHead className="text-center">Peak Time</TableHead>
-          <TableHead className="text-center">Weather Condition</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        {data.map((record) => (
-          <TableRow key={record.date}>
-            <TableCell className="font-medium">
-              {formatDateforDisplay(record.date)}
-            </TableCell>
-            <TableCell className="text-right">
-              {kwhFormatter(record.energyGenerated)}
-            </TableCell>
-            <TableCell className="text-right">
-              {roundToOneDecimalPlace(record.efficiency)}
-            </TableCell>
-            <TableCell className="text-right">
-              {kwhFormatter(record.peakPower)}
-            </TableCell>
-            <TableCell className="text-center">{record.peakTime}</TableCell>
-            <TableCell className="text-center">
-              {record.weatherCondition}
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+    <Card>
+      <CardHeader>Daily Logs</CardHeader>
+      <CardContent>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">
+                Energy Generated (kWh)
+              </TableHead>
+              <TableHead className="text-right">Efficiency (kWh/kWp)</TableHead>
+              <TableHead className="text-right">Peak Power (kW)</TableHead>
+              <TableHead className="text-center">Peak Time</TableHead>
+              <TableHead className="text-center">Weather Condition</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((record) => (
+              <TableRow key={record.date}>
+                <TableCell className="font-medium">
+                  {formatDateforDisplay(record.date)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {kwhFormatter(record.energyGenerated)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {roundToOneDecimalPlace(record.efficiency)}
+                </TableCell>
+                <TableCell className="text-right">
+                  {kwhFormatter(record.peakPower)}
+                </TableCell>
+                <TableCell className="text-center">{record.peakTime}</TableCell>
+                <TableCell className="text-center">
+                  {record.weatherCondition}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
   );
 };
 
