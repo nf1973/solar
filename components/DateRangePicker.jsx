@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const DateRangePicker = ({
   startYear,
@@ -10,10 +11,6 @@ const DateRangePicker = ({
   endMonth,
   setEndMonth,
 }) => {
-  const handleDateChange = () => {
-    onDateChange(startYear, startMonth, endYear, endMonth);
-  };
-
   const handlePreselection = (range) => {
     const currentDate = new Date();
     let newStartYear = startYear;
@@ -26,12 +23,6 @@ const DateRangePicker = ({
         newStartYear = currentDate.getFullYear() - 1;
         newStartMonth = 1; // January
         newEndYear = currentDate.getFullYear() - 1;
-        newEndMonth = 12; // December
-        break;
-      case "thisYear":
-        newStartYear = currentDate.getFullYear();
-        newStartMonth = 1; // January
-        newEndYear = currentDate.getFullYear();
         newEndMonth = 12; // December
         break;
       case "lastMonth":
@@ -50,7 +41,7 @@ const DateRangePicker = ({
         newEndYear = currentDate.getFullYear();
         newEndMonth = currentDate.getMonth() + 1;
         break;
-      case "yearToDate":
+      case "thisYear":
         newStartYear = currentDate.getFullYear();
         newStartMonth = 1; // January
         newEndYear = currentDate.getFullYear();
@@ -66,106 +57,107 @@ const DateRangePicker = ({
     setEndMonth(newEndMonth);
   };
 
+  const handleStartChange = (e) => {
+    const [year, month] = e.target.value
+      .split("-")
+      .map((value) => parseInt(value));
+    if (!isNaN(year) && !isNaN(month) && year && month) {
+      setStartYear(year);
+      setStartMonth(month);
+    }
+  };
+
+  const handleEndChange = (e) => {
+    const [year, month] = e.target.value
+      .split("-")
+      .map((value) => parseInt(value));
+    if (!isNaN(year) && !isNaN(month) && year && month) {
+      setEndYear(year);
+      setEndMonth(month);
+    }
+  };
+  const currentDate = new Date();
+  const currentYear = currentDate.getFullYear();
+  const currentMonth = currentDate.getMonth() + 1;
+  const minDate = "2018-01";
+  const maxDate = `${currentYear}-${currentMonth.toString().padStart(2, "0")}`;
+
   return (
-    <div className="flex gap-8 ">
-      <div className="flex flex-col items-center  mr-4">
-        <div className="space-x-4 mb-4">
-          <div className="flex flex-col">
-            <label htmlFor="startYear">Start</label>
-            <div className="flex items-center">
-              <select
-                id="startMonth"
-                value={startMonth}
-                onChange={(e) => setStartMonth(parseInt(e.target.value))}
-                className="border border-gray-300 rounded px-2 py-1 mr-2"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {new Date(2000, i, 1).toLocaleString("en-US", {
-                      month: "long",
-                    })}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                id="startYear"
-                value={startYear}
-                onChange={(e) => setStartYear(parseInt(e.target.value))}
-                className="border border-gray-300 rounded px-2 py-1 w-20"
-              />
+    <Card className="m-8">
+      <CardHeader>
+        <CardTitle>Select Date Range</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col gap-4">
+          <div className="flex justify-between ">
+            <div>
+              <div className="flex flex-col">
+                <label htmlFor="startYear">From</label>
+                <div className="flex items-center">
+                  <input
+                    type="month"
+                    id="startYear"
+                    min={minDate}
+                    max={maxDate}
+                    value={`${startYear}-${startMonth
+                      .toString()
+                      .padStart(2, "0")}`}
+                    onChange={handleStartChange}
+                    className="border border-gray-300 rounded px-2 text-lg"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="space-x-4 mb-4">
+              <div className="flex flex-col">
+                <label htmlFor="endYear">To</label>
+                <div className="flex items-center">
+                  <input
+                    type="month"
+                    id="endYear"
+                    min={minDate}
+                    max={maxDate}
+                    value={`${endYear}-${endMonth.toString().padStart(2, "0")}`}
+                    onChange={handleEndChange}
+                    className="border border-gray-300 rounded px-2  text-lg"
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="space-x-4 mb-4">
-          <div className="flex flex-col">
-            <label htmlFor="endYear">End</label>
-            <div className="flex items-center">
-              <select
-                id="endMonth"
-                value={endMonth}
-                onChange={(e) => setEndMonth(parseInt(e.target.value))}
-                className="border border-gray-300 rounded px-2 py-1 mr-2"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={i + 1}>
-                    {new Date(2000, i, 1).toLocaleString("en-US", {
-                      month: "long",
-                    })}
-                  </option>
-                ))}
-              </select>
-              <input
-                type="number"
-                id="endYear"
-                value={endYear}
-                onChange={(e) => setEndYear(parseInt(e.target.value))}
-                className="border border-gray-300 rounded px-2 py-1 w-20"
-              />
-            </div>
+          <div className="flex gap-4 items-center">
+            <Button
+              variant="secondary"
+              onClick={() => handlePreselection("thisMonth")}
+              aria-label="This Month"
+            >
+              This Month
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => handlePreselection("lastMonth")}
+              aria-label="Last Month"
+            >
+              Last Month
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => handlePreselection("thisYear")}
+              aria-label="This Year"
+            >
+              This Year
+            </Button>
+            <Button
+              variant="secondary"
+              onClick={() => handlePreselection("lastYear")}
+              aria-label="Last Year"
+            >
+              Last Year
+            </Button>
           </div>
         </div>
-      </div>
-      <div className="flex flex-col items-center mt-6 mr-4">
-        <button
-          onClick={() => handlePreselection("thisMonth")}
-          className="border border-gray-300 rounded px-4 py-1 mb-2 w-32"
-          aria-label="This Month"
-        >
-          This Month
-        </button>
-        <button
-          onClick={() => handlePreselection("lastMonth")}
-          className="border border-gray-300 rounded px-4 py-1 mb-2 w-32"
-          aria-label="Last Month"
-        >
-          Last Month
-        </button>
-        <button
-          onClick={() => handlePreselection("thisYear")}
-          className="border border-gray-300 rounded px-4 py-1 mb-2 w-32"
-          aria-label="This Year"
-        >
-          This Year
-        </button>
-        <button
-          onClick={() => handlePreselection("lastYear")}
-          className="border border-gray-300 rounded px-4 py-1 mb-2 w-32"
-          aria-label="Last Year"
-        >
-          Last Year
-        </button>
-      </div>
-      {/* <div className="flex flex-col justify-start items-center mt-6">
-        <button
-          onClick={handleDateChange}
-          className="border border-gray-300 rounded px-12 py-2 mb-2 bg-blue-500 text-white hover:bg-blue-600"
-          aria-label="Apply"
-        >
-          Apply
-        </button>
-      </div> */}
-    </div>
+      </CardContent>
+    </Card>
   );
 };
 
