@@ -103,7 +103,7 @@ const DateRangePicker = ({
                       .toString()
                       .padStart(2, "0")}`}
                     onChange={handleStartChange}
-                    className="border border-gray-300 rounded px-2 text-lg"
+                    className="border border-gray-300 rounded px-2"
                   />
                 </div>
               </div>
@@ -119,7 +119,7 @@ const DateRangePicker = ({
                     max={maxDate}
                     value={`${endYear}-${endMonth.toString().padStart(2, "0")}`}
                     onChange={handleEndChange}
-                    className="border border-gray-300 rounded px-2  text-lg"
+                    className="border border-gray-300 rounded px-2"
                   />
                 </div>
               </div>

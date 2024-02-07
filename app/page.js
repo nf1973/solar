@@ -47,7 +47,7 @@ export default function Home() {
                 Solar Analysis
               </h2>
               <p className="text-sm italic text-teal-600">
-                Insights in to our home power station
+                Harnessing Sunlight, Illuminating Insights
               </p>
             </div>
           </div>
