@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { getMonthlySummary } from "@/app/actions";
 import {
   Table,
   TableBody,
@@ -8,33 +7,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+
 import { Card, CardHeader, CardContent } from "./ui/card";
-const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedSolarLogs = await getMonthlySummary(
-          startYear,
-          startMonth,
-          endYear,
-          endMonth
-        );
-        setData(fetchedSolarLogs);
-      } catch (err) {
-        console.error("Error fetching solar logs:", err);
-      }
-    };
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-    fetchData();
-  }, [startYear, startMonth, endYear, endMonth]);
-
-  const kwhFormatter = (num) => {
+const MonthlySummaryTable = ({ monthlyData }) => {
+  const kWhFormatter = (num) => {
     return (num / 1000).toFixed(1);
   };
 
-  //function to take a number and set to one decimal place
   const roundToOneDecimalPlace = (num) => {
     return (num / 1).toFixed(1);
   };
@@ -45,9 +33,66 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
     return month + "/" + year;
   };
 
+  const [filteredMonthlyData, setFilteredMonthlyData] = useState([]);
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const uniqueYears = [
+    ...new Set(monthlyData.map((record) => record.month.slice(0, 4))),
+  ]; // Get unique year values from monthlyData
+
+  useEffect(() => {
+    // This runs when the component mounts to set the selectedYear to the current year, or if it is 1st Jan, to the previous year
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth() + 1; // January is month 0
+
+    if (currentMonth !== 1) {
+      setSelectedYear(currentYear.toString());
+    } else {
+      setSelectedYear((currentYear - 1).toString());
+    }
+  }, []);
+
+  useEffect(() => {
+    const filteredData = monthlyData.filter(
+      (record) => record.month.slice(0, 4) === selectedYear
+    );
+    setFilteredMonthlyData(filteredData);
+  }, [selectedYear]);
+
   return (
     <Card>
-      <CardHeader>Monthly Summary</CardHeader>
+      <CardHeader>
+        {" "}
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-bold">
+            Monthly Summary for {selectedYear}
+          </h3>
+          <select
+            value={selectedYear}
+            onChange={(e) => setSelectedYear(e.target.value)}
+            className="rounded border-gray-300 border px-2 py-1"
+          >
+            {uniqueYears.map((year) => (
+              <option key={year} value={year}>
+                {year}
+              </option>
+            ))}
+          </select>
+          {/* <Select onChange={(e) => setSelectedYear(e.target.value)}>
+            <SelectTrigger className="w-[80px]">
+              <SelectValue placeholder={selectedYear} />
+            </SelectTrigger>
+            <SelectContent>
+              {uniqueYears.map((year) => (
+                <SelectItem key={year} value={year}>
+                  {year}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select> */}
+        </div>
+      </CardHeader>
       <CardContent>
         <Table>
           <TableHeader>
@@ -58,26 +103,20 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
               </TableHead>
               <TableHead className="text-right">
                 Average Daily Enegery (kWh)
-              </TableHead>{" "}
-              <TableHead className="text-right">
-                Average Daily Efficiency (kWh/kWp)
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {data.map((record) => (
-              <TableRow key={record.date}>
+            {filteredMonthlyData.map((record) => (
+              <TableRow key={record.month}>
                 <TableCell className="font-medium">
-                  {formatDateforDisplay(record.date)}
+                  {formatDateforDisplay(record.month)}
                 </TableCell>
                 <TableCell className="text-right">
-                  {kwhFormatter(record.totalEnergy)}
+                  {kWhFormatter(record.energyGenerated)}
                 </TableCell>
                 <TableCell className="text-right">
-                  {kwhFormatter(record.averageDailyEnergy)}
-                </TableCell>
-                <TableCell className="text-right">
-                  {roundToOneDecimalPlace(record.averageEfficiency)}
+                  {kWhFormatter(record.averageDailyEnergyGenerated)}
                 </TableCell>
               </TableRow>
             ))}
@@ -88,4 +127,4 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
   );
 };
 
-export default DataTable;
+export default MonthlySummaryTable;

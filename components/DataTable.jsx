@@ -30,7 +30,7 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
     fetchData();
   }, [startYear, startMonth, endYear, endMonth]);
 
-  const kwhFormatter = (num) => {
+  const kWhFormatter = (num) => {
     return (num / 1000).toFixed(1);
   };
 
@@ -70,13 +70,13 @@ const DataTable = ({ startYear, startMonth, endYear, endMonth }) => {
                   {formatDateforDisplay(record.date)}
                 </TableCell>
                 <TableCell className="text-right">
-                  {kwhFormatter(record.energyGenerated)}
+                  {kWhFormatter(record.energyGenerated)}
                 </TableCell>
                 <TableCell className="text-right">
                   {roundToOneDecimalPlace(record.efficiency)}
                 </TableCell>
                 <TableCell className="text-right">
-                  {kwhFormatter(record.peakPower)}
+                  {kWhFormatter(record.peakPower)}
                 </TableCell>
                 <TableCell className="text-center">{record.peakTime}</TableCell>
                 <TableCell className="text-center">
