@@ -50,7 +50,7 @@ const MonthlySummaryTable = ({ monthlyData }) => {
       (record) => record.month.slice(0, 4) === selectedYear
     );
     setFilteredMonthlyData(filteredData);
-  }, [selectedYear]);
+  }, [selectedYear, monthlyData]);
 
   return (
     <Card>
