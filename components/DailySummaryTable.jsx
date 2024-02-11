@@ -114,8 +114,8 @@ const DailySummaryTable = ({ allData }) => {
               </TableHead>
               <TableHead className="text-right">Efficiency (kWh/kWp)</TableHead>
               <TableHead className="text-right">Peak Power (KW)</TableHead>
-              <TableHead className="text-right">Peak Time</TableHead>
-              <TableHead className="text-right">Weather Conditions</TableHead>
+              <TableHead className="text-center">Peak Time</TableHead>
+              <TableHead className="text-left">Weather Conditions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -128,13 +128,13 @@ const DailySummaryTable = ({ allData }) => {
                   {kWhFormatter(record.energyGenerated)}
                 </TableCell>
                 <TableCell className="text-right">
-                  {record.efficiency}
+                  {roundToOneDecimalPlace(record.efficiency)}
                 </TableCell>
-                <TableCell className="text-right">{record.peakPower}</TableCell>
-                <TableCell className="text-right">{record.peakTime}</TableCell>
                 <TableCell className="text-right">
-                  {record.weatherCondition}
+                  {kWhFormatter(record.peakPower)}
                 </TableCell>
+                <TableCell className="text-center">{record.peakTime}</TableCell>
+                <TableCell>{record.weatherCondition}</TableCell>
               </TableRow>
             ))}
           </TableBody>
