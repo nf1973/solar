@@ -10,14 +10,6 @@ import {
 
 import { Card, CardHeader, CardContent } from "./ui/card";
 
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-
 const MonthlySummaryTable = ({ monthlyData }) => {
   const kWhFormatter = (num) => {
     return (num / 1000).toFixed(1);
@@ -79,18 +71,6 @@ const MonthlySummaryTable = ({ monthlyData }) => {
               </option>
             ))}
           </select>
-          {/* <Select onChange={(e) => setSelectedYear(e.target.value)}>
-            <SelectTrigger className="w-[80px]">
-              <SelectValue placeholder={selectedYear} />
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueYears.map((year) => (
-                <SelectItem key={year} value={year}>
-                  {year}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select> */}
         </div>
       </CardHeader>
       <CardContent>
