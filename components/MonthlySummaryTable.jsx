@@ -10,7 +10,11 @@ import {
 
 import { Card, CardHeader, CardContent } from "./ui/card";
 
-const MonthlySummaryTable = ({ monthlyData }) => {
+const MonthlySummaryTable = ({
+  monthlyData,
+  selectedMonthYear,
+  setSelectedMonthYear,
+}) => {
   const kWhFormatter = (num) => {
     return (num / 1000).toFixed(1);
   };
@@ -25,52 +29,28 @@ const MonthlySummaryTable = ({ monthlyData }) => {
     return month + "/" + year;
   };
 
+  function formatDateForCardTitle(dateString) {
+    const year = dateString.slice(0, 4);
+    return `${year}`;
+  }
+
   const [filteredMonthlyData, setFilteredMonthlyData] = useState([]);
-  const [selectedYear, setSelectedYear] = useState("");
-
-  const uniqueYears = [
-    ...new Set(monthlyData.map((record) => record.month.slice(0, 4))),
-  ]; // Get unique year values from monthlyData
-
-  useEffect(() => {
-    // This runs when the component mounts to set the selectedYear to the current year, or if it is 1st Jan, to the previous year
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1; // January is month 0
-
-    if (currentMonth !== 1) {
-      setSelectedYear(currentYear.toString());
-    } else {
-      setSelectedYear((currentYear - 1).toString());
-    }
-  }, []);
 
   useEffect(() => {
     const filteredData = monthlyData.filter(
-      (record) => record.month.slice(0, 4) === selectedYear
+      (record) => record.month.slice(0, 4) === selectedMonthYear.slice(0, 4)
     );
     setFilteredMonthlyData(filteredData);
-  }, [selectedYear, monthlyData]);
+  }, [selectedMonthYear, monthlyData]);
 
   return (
     <Card>
       <CardHeader>
         {" "}
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-bold">
-            Monthly Summary for {selectedYear}
+          <h3 className="text-lg font-bold text-[#30AEBE]">
+            Monthly Summary for {formatDateForCardTitle(selectedMonthYear)}
           </h3>
-          <select
-            value={selectedYear}
-            onChange={(e) => setSelectedYear(e.target.value)}
-            className="rounded border-gray-300 border px-2 py-1"
-          >
-            {uniqueYears.map((year) => (
-              <option key={year} value={year}>
-                {year}
-              </option>
-            ))}
-          </select>
         </div>
       </CardHeader>
       <CardContent>
