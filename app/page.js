@@ -5,11 +5,9 @@ import { getAllSolarLogsSQL } from "./actions";
 import Header from "@/components/Header";
 import MainTabs from "@/components/Tabs";
 
-// TODO: Switch to using historical weather from https://open-meteo.com/ as the weather here is very unreliable
+// TODO: Switch to using historical weather from https://open-meteo.com/ as the weather in the solar data is very unreliable
 // TODO: Switch to using MongoDB instead of SQL
-// TODO: Make the Monly and Yearly charts dynamic (they are currently hardcoded to 2023 and December 2023 respectively)
-// TODO: Change the colorscheme in the charts
-// TODO: Check the warning message about X-Axis which is appearing in the console
+// TODO: defatulProps warnings in console due to https://github.com/recharts/recharts/issues/3615
 
 export default function Home() {
   const [allData, setAllData] = useState([]);
@@ -93,7 +91,7 @@ export default function Home() {
     fetchData();
   }, []);
 
-  console.log(allData);
+  //console.log(allData);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-start mx-8">

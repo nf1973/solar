@@ -15,7 +15,7 @@ const YearlySummaryTable = ({ yearlyData }) => {
   return (
     <Card>
       <CardHeader>
-        <h3 className="text-lg font-bold">Yearly Summary</h3>
+        <h3 className="text-lg font-bold text-[#30AEBE]">Yearly Summary</h3>
       </CardHeader>
       <CardContent>
         <Table>

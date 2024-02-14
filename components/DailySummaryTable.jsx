@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,7 +10,11 @@ import {
 
 import { Card, CardHeader, CardContent } from "./ui/card";
 
-const DailySummaryTable = ({ allData }) => {
+const DailySummaryTable = ({
+  allData,
+  selectedMonthYear,
+  setSelectedMonthYear,
+}) => {
   const kWhFormatter = (num) => {
     return (num / 1000).toFixed(1);
   };
@@ -36,30 +40,8 @@ const DailySummaryTable = ({ allData }) => {
   }
 
   const [filteredDailyData, setFilteredDailyData] = useState([]);
-  const [selectedMonthYear, setSelectedMonthYear] = useState("");
 
-  const uniqueMonths = [
-    ...new Set(allData.map((record) => record.date.slice(0, 6))),
-  ]; // Get unique month values from monthlyData
-
-  useEffect(() => {
-    // This runs when the component mounts to set the selectedMonthYear to the current year + month, or if it is 1st Jan, to December of the previous year
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth() + 1; // January is month 0
-
-    let tmpMonth;
-    if (currentMonth !== 1) {
-      currentMonth < 10
-        ? (tmpMonth = "0" + currentMonth.toString())
-        : (tmpMonth = currentMonth.toString());
-      setSelectedMonthYear(currentYear.toString() + tmpMonth);
-    } else {
-      setSelectedMonthYear((currentYear - 1).toString() + "12");
-    }
-  }, []);
-
-  //Filtr allData based on selectedMonthYear
+  //Filter allData based on selectedMonthYear
   useEffect(() => {
     const filteredData = allData.filter(
       (record) => record.date.slice(0, 6) === selectedMonthYear
@@ -72,36 +54,10 @@ const DailySummaryTable = ({ allData }) => {
       <CardHeader>
         {" "}
         <div className="flex justify-between items-center">
-          <h3 className="text-lg font-bold">
+          <h3 className="text-lg font-bold text-[#30AEBE]">
             Daily Summary for{" "}
             {formatSelectedMonthForCardTitle(selectedMonthYear)}
           </h3>
-          <select
-            value={selectedMonthYear}
-            onChange={(e) => setSelectedMonthYear(e.target.value)}
-            className="rounded border-gray-300 border px-2 py-1"
-          >
-            {uniqueMonths.map((monthYear, index) => {
-              const formattedMonthYear =
-                formatSelectedMonthForCardTitle(monthYear);
-              const year = monthYear.slice(0, 4);
-              const isDecember = monthYear.slice(4) === "12";
-              const nextMonthYear = uniqueMonths[index + 1];
-              const isNextJanuary =
-                nextMonthYear && nextMonthYear.slice(4) === "01";
-
-              return (
-                <React.Fragment key={monthYear}>
-                  <option value={monthYear}>{formattedMonthYear}</option>
-                  {isDecember && isNextJanuary && (
-                    <option disabled className="text-gray-500">
-                      {/* No content here, just an empty option for the separator */}
-                    </option>
-                  )}
-                </React.Fragment>
-              );
-            })}
-          </select>
         </div>
       </CardHeader>
       <CardContent>
