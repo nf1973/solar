@@ -1,19 +1,25 @@
-"use client";
+"use client"
 
-import { FaRegMoon } from "react-icons/fa";
-import { FaRegSun } from "react-icons/fa";
+import { useState, useEffect } from "react"
+import { FaRegMoon, FaRegSun } from "react-icons/fa"
+import { useTheme } from "next-themes"
 
-import { useTheme } from "next-themes";
+export default function ModeToggle() {
+  const { theme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
 
-export function ModeToggle() {
-  const { theme, setTheme } = useTheme();
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null // Avoid SSR/client mismatch
 
   return (
     <button
-      className={"rounded-sm pt-1"}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+      className="p-2 rounded"
     >
       {theme === "light" ? <FaRegMoon /> : <FaRegSun />}
     </button>
-  );
+  )
 }

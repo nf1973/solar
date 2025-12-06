@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { ModeToggle } from "./utils/DarkModeSwitcher";
+import Link from "next/link"
+import ModeToggle from "./utils/DarkModeSwitcher"
 
 const Header = () => {
   return (
@@ -31,7 +31,7 @@ const Header = () => {
         </ul>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
